@@ -59,7 +59,7 @@ namespace Library.Controllers
 
         [Route("{bookId}")]
         [HttpPut]
-        public void Put(int id, [FromBody]string value)
+        public void Put([FromUri]int bookId, [FromBody]string value)
         {
         }
 
