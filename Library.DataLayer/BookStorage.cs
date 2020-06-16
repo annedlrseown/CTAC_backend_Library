@@ -32,5 +32,24 @@ namespace Library.DataLayer
 
             return id;
         }
+
+        public void Delete(int bookId)
+        {
+            if (_yeOldeBookDepository.ContainsKey(bookId))
+            {
+                _yeOldeBookDepository.Remove(bookId);
+            }
+        }
+
+        public Book SelectBookById(int bookId)
+        {
+            if (_yeOldeBookDepository.ContainsKey(bookId))
+            {
+                var book = _yeOldeBookDepository[bookId];
+                return book;
+            }
+
+            throw new MissingFieldException("Invalid bookId");
+        }
     }
 }

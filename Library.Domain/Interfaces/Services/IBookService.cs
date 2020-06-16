@@ -8,5 +8,6 @@ namespace Library.Domain.Interfaces.Services
         IEnumerable<Book> GetAllBooks();
         Book GetBook(int bookId);
         int CreateBook(Book book);
+        void RemoveBook(int bookId);
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Web.Http;
-using Library.Domain.DataTransferClasses;
 using Library.Domain.DataTransferClasses.Requests;
 using Library.Domain.DataTransferClasses.Responses;
 using Library.Domain.Interfaces.Services;
@@ -62,12 +57,17 @@ namespace Library.Controllers
             };
         }
 
+        [Route("{bookId}")]
+        [HttpPut]
         public void Put(int id, [FromBody]string value)
         {
         }
 
+        [Route("{bookId}")]
+        [HttpDelete]
         public void Delete(int id)
         {
+            _bookService.RemoveBook(id);
         }
     }
 }

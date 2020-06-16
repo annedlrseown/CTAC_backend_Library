@@ -26,7 +26,8 @@ namespace Library.Services
 
         public Book GetBook(int bookId)
         {
-            throw new NotImplementedException();
+            var book = _bookStorage.SelectBookById(bookId);
+            return book;
         }
 
         public int CreateBook(Book book)
@@ -35,6 +36,11 @@ namespace Library.Services
 
             var bookId = _bookStorage.InsertBook(book);
             return bookId;
+        }
+
+        public void RemoveBook(int bookId)
+        {
+            _bookStorage.Delete(bookId);
         }
 
         private void Validate(Book book)
