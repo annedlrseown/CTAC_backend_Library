@@ -21,7 +21,8 @@ namespace Library.Services
 
         public IEnumerable<Book> GetAllBooks()
         {
-            throw new NotImplementedException();
+            var books = _bookStorage.SelectAll();
+            return books;
         }
 
         public Book GetBook(int bookId)

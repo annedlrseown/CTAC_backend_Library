@@ -49,7 +49,12 @@ namespace Library.DataLayer
                 return book;
             }
 
-            throw new MissingFieldException("Invalid bookId");
+            return null;
+        }
+
+        public IEnumerable<Book> SelectAll()
+        {
+            return _yeOldeBookDepository.Values;
         }
     }
 }

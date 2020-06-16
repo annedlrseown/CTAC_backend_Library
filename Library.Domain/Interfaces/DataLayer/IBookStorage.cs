@@ -1,4 +1,5 @@
-﻿using Library.Domain.Services;
+﻿using System.Collections.Generic;
+using Library.Domain.Services;
 
 namespace Library.Domain.Interfaces.DataLayer
 {
@@ -7,5 +8,6 @@ namespace Library.Domain.Interfaces.DataLayer
         int InsertBook(Book book);
         void Delete(int bookId);
         Book SelectBookById(int bookId);
+        IEnumerable<Book> SelectAll();
     }
 }

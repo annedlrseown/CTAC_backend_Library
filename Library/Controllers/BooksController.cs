@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using Library.Domain.DataTransferClasses.Requests;
 using Library.Domain.DataTransferClasses.Responses;
@@ -22,45 +25,60 @@ namespace Library.Controllers
 
         [Route("")]
         [HttpGet]
-        public GetAllBooksResponseBody Get()
+        public IHttpActionResult Get()
         {
             var books = _bookService.GetAllBooks();
             var response = books
                 .Select(book => _translator.Translate(book));
 
-            return new GetAllBooksResponseBody
+            var responseBody = new GetAllBooksResponseBody
             {
                 Books = response
             };
+            return Ok(responseBody);
         }
 
         [Route("{bookId}")]
         [HttpGet]
-        public GetBookResponseBody Get([FromUri]int bookId)
+        public IHttpActionResult Get([FromUri]int bookId)
         {
             var book = _bookService.GetBook(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
             var response = _translator.TranslateToDtc(book);
 
-            return response;
+            return Ok(response);
         }
 
         [Route("")]
         [HttpPost]
-        public CreateBookResponseBody Post([FromBody]CreateBookRequestBody request)
+        public IHttpActionResult Post([FromBody]CreateBookRequestBody request)
         {
-            var book = _translator.TranslateToService(request);
-            var bookId = _bookService.CreateBook(book);
+            int bookId;
+            try
+            {
+                var book = _translator.TranslateToService(request);
+                bookId = _bookService.CreateBook(book);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
 
-            return new CreateBookResponseBody
+            return Created($"/api/books/{bookId}", new CreateBookResponseBody
             {
                 BookId = bookId
-            };
+            });
         }
 
         [Route("{bookId}")]
         [HttpPut]
-        public void Put([FromUri]int bookId, [FromBody]string value)
+        public IHttpActionResult Put([FromUri]int bookId, [FromBody]string value)
         {
+            return Ok(new {});
         }
 
         [Route("{bookId}")]
